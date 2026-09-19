@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "moduleResolution": "node16" /* Sesuai standar eksekusi Node.js modern */,
+    "module": "node16",
+    "noEmit": false,
+    "sourceMap": true
+  },
+  "include": ["src/**/*"]
+}
