@@ -1,8 +1,9 @@
-const App = async () => {
-  const hello = await fetch('http://localhost:3000/live')
-  const result = await hello.json()
-  console.log(result)
-  return <div>{result}</div>
+import { useQuery } from '@tanstack/react-query'
+import { getApiLiveStatus } from './api/queries'
+
+const App = () => {
+  const { data } = useQuery(getApiLiveStatus())
+  return <>{data}</>
 }
 
 export { App }

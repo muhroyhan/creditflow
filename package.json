@@ -1,6 +1,7 @@
 {
   "name": "creditflow",
   "version": "1.0.0",
+  "private": true,
   "description": "A Portofolio Project for Simple Credit System",
   "keywords": [],
   "homepage": "https://github.com/muhroyhan/creditflow#readme",
@@ -16,7 +17,6 @@
     "doc": "docs"
   },
   "type": "module",
-  "main": "index.js",
   "scripts": {
     "api:build": "pnpm --filter @creditflow/api build",
     "api:dev": "pnpm --filter @creditflow/api dev",
@@ -26,19 +26,18 @@
     "fmt:check": "oxfmt --check .",
     "lint": "oxlint . --deny-warnings",
     "lint:fix": "oxlint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "web:build": "pnpm --filter @creditflow/web build",
     "web:dev": "pnpm --filter @creditflow/web dev",
     "web:start": "pnpm --filter @creditflow/web start"
-  },
-  "dependencies": {
-    "dotenv": "^18.0.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.1",
     "oxfmt": "^0.68.0",
     "oxlint": "^1.83.0",
     "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=24.19.0"
   },
   "packageManager": "pnpm@12.5.0+sha512.9cdbaa34ffacae1768635ac0d23e94db6201c7d59bf3da236b23d67c8f6b794d1dab323bcd5bcc51b55c8cafbf6f19a24e4aa61d6ab7772aa3b5cc85e325dc4d"
 }

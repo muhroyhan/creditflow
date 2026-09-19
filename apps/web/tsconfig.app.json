@@ -7,7 +7,8 @@
     "useDefineForClassFields": true,
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+    "types": ["vite/client"]
   },
   "include": ["src/**/*"]
 }
