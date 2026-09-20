@@ -1,24 +1,26 @@
 import express, { type Response } from 'express'
-import { sendSuccess } from '../../utils/responseHelper.js'
 import { ApiError } from '../../utils/ApiError'
-import { DrizzleQueryError } from 'drizzle-orm/errors'
-import { Pool } from 'pg'
-import { healthService } from './health.service.js'
+import { sendSuccess } from '../../utils/responseHelper.js'
+import { healthService, type DatabaseClient } from './health.service.js'
 
-const healthRouter = (opt: { pool: Pool }) => {
-  const { pool } = opt
+type HealthRouterOptions = {
+  pool: DatabaseClient
+}
+
+const healthRouter = ({ pool }: HealthRouterOptions) => {
+  const health = healthService({ pool })
   const router = express.Router()
 
   router.get('/live', (_, res: Response) => {
     sendSuccess({ res, message: 'live' })
   })
+
   router.get('/ready', async (_req, res: Response) => {
     try {
-      await healthService({ pool }).databaseCheck()
+      await health.databaseCheck()
       sendSuccess({ res, message: 'ready' })
-    } catch (err) {
-      if (err instanceof DrizzleQueryError) throw new ApiError(err.message, 503)
-      else throw new ApiError(String(err), 503)
+    } catch {
+      throw new ApiError('Database unavailable', 503, 'DATABASE_UNAVAILABLE')
     }
   })
 

@@ -9,6 +9,6 @@ export interface ApiErrorResponse {
   error: {
     message: string
     code: string
-    stack?: string // Hanya muncul saat development
+    stack?: string
   }
 }

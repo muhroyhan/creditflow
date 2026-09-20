@@ -1,16 +1,21 @@
 import express, { type Response } from 'express'
-import { sendSuccess } from './utils/responseHelper'
-import { Pool } from 'pg'
 import { healthRouter } from './modules/health/health.router'
+import type { DatabaseClient } from './modules/health/health.service'
+import { sendSuccess } from './utils/responseHelper'
 
-const router = (opt: { pool: Pool }) => {
-  const { pool } = opt
-  const router = express.Router()
+type RouterOptions = {
+  pool: DatabaseClient
+}
 
-  router.use('/health', healthRouter({ pool }))
-  router.get('/', (_, res: Response) => sendSuccess({ res, message: 'Hello World!' }))
+const router = ({ pool }: RouterOptions) => {
+  const appRouter = express.Router()
 
-  return router
+  appRouter.get('/', (_, res: Response) => {
+    sendSuccess({ res, message: 'Hello World!' })
+  })
+  appRouter.use('/health', healthRouter({ pool }))
+
+  return appRouter
 }
 
 export { router }

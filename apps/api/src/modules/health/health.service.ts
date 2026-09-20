@@ -1,14 +1,16 @@
-import { drizzle } from 'drizzle-orm/node-postgres'
-import { Pool } from 'pg'
-
-const healthService = (opt: { pool: Pool }) => {
-  const { pool } = opt
-  return {
-    databaseCheck: async () => {
-      const db = drizzle({ client: pool })
-      return await db.execute('select 1')
-    },
-  }
+type DatabaseClient = {
+  query: (query: string) => Promise<unknown>
 }
 
+type HealthServiceOptions = {
+  pool: DatabaseClient
+}
+
+const healthService = ({ pool }: HealthServiceOptions) => ({
+  databaseCheck: async (): Promise<void> => {
+    await pool.query('SELECT 1')
+  },
+})
+
 export { healthService }
+export type { DatabaseClient }

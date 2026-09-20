@@ -94,8 +94,8 @@ http://localhost:3001
 Examples:
 
 ```text
-http://localhost:3000/live
-http://localhost:3000/ready
+http://localhost:3000/health/live
+http://localhost:3000/health/ready
 ```
 
 ## Database

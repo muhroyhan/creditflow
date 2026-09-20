@@ -1,10 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
+import { ApiErrorResponse } from '../types/response'
 
-const notFoundHandler = (_req: Request, res: Response, _next: NextFunction) => {
+const notFoundHandler = (_req: Request, res: Response<ApiErrorResponse>, _next: NextFunction) => {
   return res.status(404).json({
-    status: 404,
-    title: 'Not Found',
-    detail: 'Request tidak ditemukan.',
+    success: false,
+    error: {
+      message: 'Request tidak ditemukan.',
+      code: 'Not Found',
+    },
   })
 }
 
