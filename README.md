@@ -30,7 +30,7 @@ creditflow/
 
 ## Prerequisites
 
-- Node.js 22+
+- Node.js 24+
 - pnpm 12+
 - Docker Desktop
 
@@ -59,8 +59,9 @@ Configure `.env`:
 
 ```env
 API_PORT=3000
+WEB_URL=http://localhost:3001
+VITE_API_URL=http://localhost:3000
 VITE_WEB_PORT=3001
-VITE_API_BASE_URL=http://localhost:3000
 ```
 
 ## Run the Application

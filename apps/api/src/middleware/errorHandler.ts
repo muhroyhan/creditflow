@@ -1,9 +1,8 @@
 // middleware/errorMiddleware.ts
-import { Response } from 'express'
-import { ApiErrorResponse } from '../types/response.js'
+import { NextFunction, Request, Response } from 'express'
 import { ApiError } from '../utils/apiError.js'
 
-const errorHandler = (err: any, res: Response<ApiErrorResponse>): void => {
+const errorHandler = (err: any, _req: Request, res: Response, _next: NextFunction): void => {
   const statusCode = err instanceof ApiError ? err.statusCode : 500
   const code = err instanceof ApiError ? err.code : 'INTERNAL_SERVER_ERROR'
   const message = err.message || 'An unexpected error occurred.'

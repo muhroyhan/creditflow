@@ -22,6 +22,8 @@
     "api:dev": "pnpm --filter @creditflow/api dev",
     "api:start": "pnpm --filter @creditflow/api start",
     "db:up": "docker compose up -d",
+    "db:generate": "pnpm --filter @creditflow/api generate",
+    "db:migrate": "pnpm --filter @creditflow/api migrate",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check .",
     "lint": "oxlint . --deny-warnings",
