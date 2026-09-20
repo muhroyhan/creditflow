@@ -8,7 +8,7 @@ export const getApiLiveStatus = () =>
   queryOptions({
     queryKey: publicKeys.live,
     queryFn: async ({ signal }) => {
-      const { data } = await apiClient.get<ApiResponse<string>>('/v1/health/live', { signal })
+      const { data } = await apiClient.get<ApiResponse<string>>('/health/live', { signal })
       return data
     },
   })
@@ -17,7 +17,7 @@ export const getApiReadyStatus = () =>
   queryOptions({
     queryKey: publicKeys.ready,
     queryFn: async ({ signal }) => {
-      const { data } = await apiClient.get<ApiResponse<string>>(`/v1/health/ready`, { signal })
+      const { data } = await apiClient.get<ApiResponse<string>>(`/health/ready`, { signal })
       return data
     },
   })

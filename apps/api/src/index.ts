@@ -4,8 +4,9 @@ import cors from 'cors'
 import morgan from 'morgan'
 import compression from 'compression'
 import { errorHandler } from './middleware/errorHandler'
-import { router } from './router/index'
+import { router } from './router'
 import { Pool } from 'pg'
+import { notFoundHandler } from './middleware/notFoundHandler'
 
 dotenv.config({
   path: '../../.env',
@@ -22,6 +23,7 @@ app.use(morgan('combined'))
 app.use(compression())
 app.use(router({ pool }))
 app.use(errorHandler)
+app.use(notFoundHandler)
 
 const port = Number(process.env.API_PORT ?? 3000)
 if (!Number.isInteger(port) || port <= 0) {
