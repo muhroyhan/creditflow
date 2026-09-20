@@ -1,6 +1,6 @@
 // middleware/errorMiddleware.ts
 import { NextFunction, Request, Response } from 'express'
-import { ApiError } from '../utils/apiError.js'
+import { ApiError } from '../utils/ApiError'
 
 const errorHandler = (err: any, _req: Request, res: Response, _next: NextFunction): void => {
   const statusCode = err instanceof ApiError ? err.statusCode : 500

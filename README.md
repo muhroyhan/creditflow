@@ -86,10 +86,10 @@ http://localhost:3001
 
 ## Health Endpoints
 
-| Endpoint     | Description                                         |
-| ------------ | --------------------------------------------------- |
-| `GET /live`  | Checks whether the API process is running.          |
-| `GET /ready` | Checks whether the API is ready to accept requests. |
+| Endpoint            | Description                                         |
+| ------------------- | --------------------------------------------------- |
+| `GET /health/live`  | Checks whether the API process is running.          |
+| `GET /health/ready` | Checks whether the API is ready to accept requests. |
 
 Examples:
 

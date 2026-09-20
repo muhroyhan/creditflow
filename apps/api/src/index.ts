@@ -3,8 +3,8 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import morgan from 'morgan'
 import compression from 'compression'
-import { errorHandler } from './middleware/errorHandler.js'
-import { router } from './router/index.js'
+import { errorHandler } from './middleware/errorHandler'
+import { router } from './router/index'
 import { Pool } from 'pg'
 
 dotenv.config({

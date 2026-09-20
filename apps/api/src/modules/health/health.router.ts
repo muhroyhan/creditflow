@@ -1,7 +1,7 @@
 import express, { type Response } from 'express'
 import { sendSuccess } from '../../utils/responseHelper.js'
 import { drizzle } from 'drizzle-orm/node-postgres'
-import { ApiError } from '../../utils/apiError.js'
+import { ApiError } from '../../utils/ApiError'
 import { DrizzleQueryError } from 'drizzle-orm/errors'
 import { Pool } from 'pg'
 
@@ -22,6 +22,7 @@ const healthRouter = (opt: { pool: Pool }) => {
       sendSuccess({ res, message: 'ready' })
     } catch (err) {
       if (err instanceof DrizzleQueryError) throw new ApiError(err.message, 503)
+      else throw new ApiError(String(err), 503)
     }
   })
 
