@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getApiLiveStatus, getApiReadyStatus } from './api/queries'
-import { calculateCreditInstallment } from './utils/calculateCreditInstallment'
+import AddEditCreditApplication from './modules/credit_application/AddEdit'
 
 const App = () => {
   const {
@@ -22,11 +22,11 @@ const App = () => {
   else texts.push(`DB status: ${readyData?.message}`)
 
   return (
-    <p>
+    <>
       {texts.map((item) => item + '\n')}
       <br />
-      <div>{calculateCreditInstallment(1_200_000, 12, 3).toString()}</div>
-    </p>
+      <AddEditCreditApplication />
+    </>
   )
 }
 

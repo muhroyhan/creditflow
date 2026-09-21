@@ -6,9 +6,7 @@ import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@ta
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {
-      // Tangani error global untuk query (GET)
       console.error('Global Query Error:', error.message)
-      // Contoh: tampilkan toast notification di sini
     },
   }),
   mutationCache: new MutationCache({
@@ -19,7 +17,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60,
-      retry: 1, // Batasi percobaan ulang otomatis
+      retry: 1,
       refetchOnWindowFocus: false,
     },
   },
