@@ -1,51 +1,50 @@
 # CreditFlow
 
-CreditFlow is a credit management system built as a full-stack TypeScript monorepo.
+CreditFlow is a credit-management system built as a full-stack TypeScript monorepo.
 
-## Tech Stack
+## Tech stack
 
 - TypeScript
-- React
-- Vite
+- React and Vite
 - Express
 - PostgreSQL
-- pnpm
+- pnpm workspaces
 - Docker Compose
-- Oxlint
-- Oxfmt
+- Vitest and Supertest
+- Oxlint and Oxfmt
 
-## Project Structure
+## Project structure
 
 ```text
 creditflow/
 ├── apps/
-│   ├── api/              # Express API
-│   └── web/              # React web application
-├── .env.example          # Environment variable template
-├── compose.yaml          # Local PostgreSQL container
-├── package.json          # Root scripts and dependencies
-├── pnpm-workspace.yaml   # pnpm workspace configuration
-└── tsconfig.base.json    # Shared TypeScript configuration
+│ ├── api/               # Express API
+│ │ ├── src/
+│ │ │ ├── modules/       # Feature modules
+│ │ │ ├── middleware/    # Shared HTTP middleware
+│ │ │ └── app.ts         # Express app factory
+│ │ └── test/            # API integration tests
+│ └── web/               # React web application
+├── .env.example         # Environment-variable template
+├── compose.yaml         # Local PostgreSQL container
+├── package.json         # Root workspace scripts
+├── pnpm-workspace.yaml  # pnpm workspace configuration
+└── tsconfig.base.json   # Shared TypeScript configuration
 ```
 
 ## Prerequisites
 
-- Node.js 24+
-- pnpm 12+
-- Docker Desktop
+- Node.js 24 or newer
+- pnpm 12 or newer
+- Docker Desktop (required only when running PostgreSQL locally)
 
-## Getting Started
+## Getting started
 
-Clone the repository:
+Clone the repository and install dependencies:
 
 ```bash
 git clone https://github.com/muhroyhan/creditflow.git
 cd creditflow
-```
-
-Install dependencies:
-
-```bash
 pnpm install
 ```
 
@@ -55,18 +54,26 @@ Create the local environment file:
 cp .env.example .env
 ```
 
-Configure `.env`:
+The default local configuration is:
 
 ```env
 API_PORT=3000
 WEB_URL=http://localhost:3001
+DATABASE_USER=creditflow
+DATABASE_PASS=creditflow
+DATABASE_HOST=localhost:5432
+DATABASE_NAME=creditflow
 VITE_API_URL=http://localhost:3000
 VITE_WEB_PORT=3001
 ```
 
-## Run the Application
+Start PostgreSQL:
 
-Start the API:
+```bash
+pnpm db:up
+```
+
+Start the API in one terminal:
 
 ```bash
 pnpm api:dev
@@ -78,18 +85,14 @@ Start the web application in another terminal:
 pnpm web:dev
 ```
 
-Open the web application:
+Open the web application at [http://localhost:3001](http://localhost:3001).
 
-```text
-http://localhost:3001
-```
+## Health endpoints
 
-## Health Endpoints
-
-| Endpoint            | Description                                         |
-| ------------------- | --------------------------------------------------- |
-| `GET /health/live`  | Checks whether the API process is running.          |
-| `GET /health/ready` | Checks whether the API is ready to accept requests. |
+| Endpoint            | Purpose                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| `GET /health/live`  | Confirms that the API process is running. This endpoint does not check the database.        |
+| `GET /health/ready` | Confirms that the API can reach PostgreSQL. Returns `503` when the database is unavailable. |
 
 Examples:
 
@@ -98,34 +101,44 @@ http://localhost:3000/health/live
 http://localhost:3000/health/ready
 ```
 
-## Database
+## Testing
 
-Start PostgreSQL:
+The API integration test suite uses Vitest and Supertest. It builds the Express application through `createApp()` and injects a fake database client, so Docker and PostgreSQL are **not** required to run the tests.
 
-```bash
-pnpm db:up
-```
-
-Check the database container:
+Run all API tests:
 
 ```bash
-docker compose ps
+pnpm --filter @creditflow/api exec vitest run
 ```
 
-## Available Scripts
+Run tests in watch mode while developing:
 
-| Command          | Description                                  |
-| ---------------- | -------------------------------------------- |
-| `pnpm api:dev`   | Run the API in development mode.             |
-| `pnpm api:build` | Build the API.                               |
-| `pnpm api:start` | Run the built API.                           |
-| `pnpm web:dev`   | Run the web application in development mode. |
-| `pnpm web:build` | Build the web application.                   |
-| `pnpm web:start` | Preview the built web application.           |
-| `pnpm db:up`     | Start the PostgreSQL container.              |
-| `pnpm fmt`       | Format the codebase.                         |
-| `pnpm fmt:check` | Check code formatting.                       |
-| `pnpm lint`      | Run the linter.                              |
+```bash
+pnpm --filter @creditflow/api exec vitest
+```
+
+Current test coverage includes:
+
+- `GET /health/live` returns `200` without querying the database.
+- `GET /health/ready` returns `200` when the database check succeeds.
+- `GET /health/ready` returns `503` with `DATABASE_UNAVAILABLE` when the database check fails.
+- An unknown endpoint returns `404`.
+
+## Available scripts
+
+| Command                                         | Description                                  |
+| ----------------------------------------------- | -------------------------------------------- |
+| `pnpm api:dev`                                  | Run the API in development mode.             |
+| `pnpm api:build`                                | Build the API.                               |
+| `pnpm api:start`                                | Run the built API.                           |
+| `pnpm web:dev`                                  | Run the web application in development mode. |
+| `pnpm web:build`                                | Build the web application.                   |
+| `pnpm web:start`                                | Preview the built web application.           |
+| `pnpm db:up`                                    | Start the local PostgreSQL container.        |
+| `pnpm fmt`                                      | Format the codebase.                         |
+| `pnpm fmt:check`                                | Check code formatting.                       |
+| `pnpm lint`                                     | Run the linter.                              |
+| `pnpm --filter @creditflow/api exec vitest run` | Run API integration tests.                   |
 
 ## License
 
