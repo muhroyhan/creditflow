@@ -1,11 +1,11 @@
 import request from 'supertest'
 import { describe, expect, it, vi } from 'vitest'
 import { createApp } from '../src/app'
-import type { DatabaseClient } from '../src/modules/health/health.service'
+import { Pool } from 'pg'
 
 const createDatabaseClient = () => {
-  const query = vi.fn<DatabaseClient['query']>()
-  const pool: DatabaseClient = { query }
+  const query = vi.fn()
+  const pool: Pool = new Pool()
 
   return { pool, query }
 }

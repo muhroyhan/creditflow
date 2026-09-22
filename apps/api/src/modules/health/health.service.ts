@@ -1,16 +1,10 @@
-type DatabaseClient = {
-  query: (query: string) => Promise<unknown>
-}
+import { Pool } from 'pg'
 
-type HealthServiceOptions = {
-  pool: DatabaseClient
-}
-
-const healthService = ({ pool }: HealthServiceOptions) => ({
+const healthService = (pool: Pool) => ({
   databaseCheck: async (): Promise<void> => {
     await pool.query('SELECT 1')
   },
 })
 
 export { healthService }
-export type { DatabaseClient }
+export type { Pool }

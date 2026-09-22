@@ -1,10 +1,11 @@
 import express, { type Response } from 'express'
 import { healthRouter } from './modules/health/health.router'
-import type { DatabaseClient } from './modules/health/health.service'
+import type { Pool } from './modules/health/health.service'
 import { sendSuccess } from './utils/responseHelper'
+import { creditApplicationRouter } from './modules/credit_application/credit_application.router'
 
 type RouterOptions = {
-  pool: DatabaseClient
+  pool: Pool
 }
 
 const router = ({ pool }: RouterOptions) => {
@@ -13,7 +14,8 @@ const router = ({ pool }: RouterOptions) => {
   appRouter.get('/', (_, res: Response) => {
     sendSuccess({ res, message: 'Hello World!' })
   })
-  appRouter.use('/health', healthRouter({ pool }))
+  appRouter.use('/health', healthRouter(pool))
+  appRouter.use('/credit-application', creditApplicationRouter(pool))
 
   return appRouter
 }

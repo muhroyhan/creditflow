@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getApiLiveStatus, getApiReadyStatus } from './api/queries'
-import AddEditCreditApplication from './modules/credit_application/AddEdit'
+import AddEditPage from './features/credit_application/page/AddEditPage'
 
 const App = () => {
   const {
@@ -25,7 +25,7 @@ const App = () => {
     <>
       {texts.map((item) => item + '\n')}
       <br />
-      <AddEditCreditApplication />
+      <AddEditPage />
     </>
   )
 }
