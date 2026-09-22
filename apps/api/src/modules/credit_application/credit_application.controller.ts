@@ -5,7 +5,7 @@ import {
   CreateCreditApplicationInput,
   CreditApplicatonCalculateResult,
 } from './credit_application.types'
-import { RequestGetMethod } from '@/types/request'
+import { RequestGetMethod, RequestPostPatchMethod } from '@/types/request'
 
 export const creditApplicationController = (service: CreditApplicationService) => ({
   findAllCreditApplications: async (req: Request, res: Response) => {
@@ -13,15 +13,24 @@ export const creditApplicationController = (service: CreditApplicationService) =
     return res.status(200).json({ data })
   },
 
-  createCreditApplication: async (req: Request, res: Response) => {
-    const data = await service.create(req.body)
+  findOneCreditApplication: async (req: Request, res: Response) => {
+    const data = await service.findOne(req.params.id)
     return res.status(200).json({ data })
+  },
+
+  createCreditApplication: async (
+    req: RequestPostPatchMethod<CreateCreditApplicationInput>,
+    res: Response
+  ) => {
+    const id = await service.create(req.body)
+    return res.status(200).json({ data: { id } })
   },
 
   calculateInstallment: (
     req: RequestGetMethod<CreateCreditApplicationInput>,
     res: Response<{ data: CreditApplicatonCalculateResult }>
   ) => {
+    console.log('test')
     const data = service.calculation(req.query)
     return res.status(200).json({ data })
   },

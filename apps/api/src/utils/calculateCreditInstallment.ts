@@ -8,7 +8,7 @@ const calculateCreditInstallment = (
   const interest = monthlyInterest * tenor
   const totalLoan = principalLoan + interest
   const monthlyInstallment = totalLoan / tenor
-  return { totalLoan, monthlyInstallment }
+  return { totalLoan, monthlyInstallment, interest }
 }
 
 export { calculateCreditInstallment }

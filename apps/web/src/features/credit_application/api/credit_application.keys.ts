@@ -7,7 +7,11 @@ export const creditApplicationKeys = {
 
   details: () => [...creditApplicationKeys.all, 'detail'] as const,
 
-  detail: (id: string) => [...creditApplicationKeys.details(), id] as const,
+  detail: (id?: string) => [...creditApplicationKeys.details(), id] as const,
 
   calculate: () => [...creditApplicationKeys.all, 'calculate'] as const,
+
+  create: () => [...creditApplicationKeys.all, 'create'] as const,
+
+  update: () => [...creditApplicationKeys.all, 'update'] as const,
 }

@@ -12,6 +12,7 @@ const creditApplicationRouter = (pool: Pool) => {
 
   router.get('/', controller.findAllCreditApplications)
   router.get('/calculate', controller.calculateInstallment)
+  router.get('/:id', controller.findOneCreditApplication)
   router.post('/', controller.createCreditApplication)
 
   return router

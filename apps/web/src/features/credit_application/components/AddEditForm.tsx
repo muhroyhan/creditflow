@@ -3,11 +3,12 @@ import { Field, FieldError, FieldGroup, FieldLabel } from '@/shadcn/ui/field'
 import { Input } from '@/shadcn/ui/input'
 import { useForm } from '@tanstack/react-form'
 import * as z from 'zod'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { CreateCreditApplicationInput } from '../api/credit_application.types'
 import { creditApplicationQueries } from '../api/credit_application.queries'
 import { useDebounce } from '@/hooks/use_debounce'
+import { creditApplicationMutations } from '../api/credit_application.mutations'
 
 const formSchema = z.object({
   principalAmount: z.number(),
@@ -24,13 +25,16 @@ const AddEditForm = () => {
     setParams(data)
   }, 500)
   const { data: result } = useQuery(creditApplicationQueries.calculate(params))
+  const { data: created, mutate: create } = useMutation(creditApplicationMutations.create())
+  console.log(created)
+  const { data: item } = useQuery(creditApplicationQueries.detail(created?.id))
   const form = useForm({
     defaultValues: { principalAmount: 0, tenorMonth: 0 },
     validators: {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value)
+      create(value)
     },
   })
 
@@ -93,6 +97,9 @@ const AddEditForm = () => {
       </form>
       <div>Monthly Installment: {result?.monthlyInstallment}</div>
       <div>Total Loan: {result?.totalLoan}</div>
+      <div>=======================</div>
+      <div>created</div>
+      <p>{item?.id}</p>
     </>
   )
 }

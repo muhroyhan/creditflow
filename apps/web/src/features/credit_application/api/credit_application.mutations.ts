@@ -5,13 +5,13 @@ import { creditApplicationKeys } from './credit_application.keys'
 export const creditApplicationMutations = {
   create: () =>
     mutationOptions({
-      mutationKey: creditApplicationKeys.all,
+      mutationKey: creditApplicationKeys.create(),
       mutationFn: creditApplicationApi.create,
     }),
 
   update: () =>
     mutationOptions({
-      mutationKey: ['credit-applications', 'update'],
+      mutationKey: creditApplicationKeys.update(),
       mutationFn: ({
         id,
         input,

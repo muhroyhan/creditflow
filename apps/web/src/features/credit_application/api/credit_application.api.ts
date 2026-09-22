@@ -24,7 +24,7 @@ export const creditApplicationApi = {
     return requireData(data)
   },
 
-  async getById(id: string, signal?: AbortSignal): Promise<CreditApplication> {
+  async getById(id?: string, signal?: AbortSignal): Promise<CreditApplication> {
     const { data } = await apiClient.get<ApiResponse<CreditApplication>>(`${basePath}/${id}`, {
       signal,
     })

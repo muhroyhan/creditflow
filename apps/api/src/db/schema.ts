@@ -18,7 +18,7 @@ export const creditApplication = pgTable('credit_application', {
   status: creditApplicationStatus('status').default('draft').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   createdBy: varchar('created_by'),
-  updatedAt: timestamp('created_at')
+  updatedAt: timestamp('updated_at')
     .defaultNow()
     .$onUpdate(() => new Date())
     .notNull(),

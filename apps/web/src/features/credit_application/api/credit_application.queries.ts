@@ -9,8 +9,7 @@ export const creditApplicationQueries = {
       queryKey: creditApplicationKeys.list(),
       queryFn: ({ signal }) => creditApplicationApi.list(signal),
     }),
-
-  detail: (id: string) =>
+  detail: (id?: string) =>
     queryOptions({
       queryKey: creditApplicationKeys.detail(id),
       queryFn: ({ signal }) => creditApplicationApi.getById(id, signal),
