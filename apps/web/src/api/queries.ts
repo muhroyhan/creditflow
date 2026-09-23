@@ -4,6 +4,15 @@ import { apiClient } from './client'
 import { publicKeys } from './keys'
 import { ApiResponse } from './types'
 
+export const getOneQuery = <T>(endpoint: string, queryKey: string[]) =>
+  queryOptions({
+    queryKey,
+    queryFn: async ({ signal }) => {
+      const { data } = await apiClient.get<ApiResponse<T>>(endpoint, { signal })
+      return data
+    },
+  })
+
 export const getApiLiveStatus = () =>
   queryOptions({
     queryKey: publicKeys.live,

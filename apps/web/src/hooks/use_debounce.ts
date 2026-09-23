@@ -12,7 +12,7 @@ export function useDebounce<T extends (...args: any[]) => void>(callback: T, del
   return useMemo(() => {
     let timerId: number
 
-    const debouncedFn = (...args) => {
+    const debouncedFn = (...args: any[]) => {
       if (timerId) clearTimeout(timerId)
 
       timerId = setTimeout(() => {

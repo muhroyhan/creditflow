@@ -1,8 +1,8 @@
+import { getApiLiveStatus, getApiReadyStatus } from '@/api/queries'
 import { useQuery } from '@tanstack/react-query'
-import { getApiLiveStatus, getApiReadyStatus } from './api/queries'
-import AddEditPage from './features/credit_application/page/AddEditPage'
+import { Outlet } from '@tanstack/react-router'
 
-const App = () => {
+const UserLayoutPage = () => {
   const {
     data: liveData,
     isPending: isPendingLive,
@@ -25,9 +25,9 @@ const App = () => {
     <>
       {texts.map((item) => item + '\n')}
       <br />
-      <AddEditPage />
+      <Outlet />
     </>
   )
 }
 
-export { App }
+export { UserLayoutPage }

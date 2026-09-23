@@ -3,50 +3,22 @@ import { Field, FieldError, FieldGroup, FieldLabel } from '@/shadcn/ui/field'
 import { Input } from '@/shadcn/ui/input'
 import { useForm } from '@tanstack/react-form'
 import * as z from 'zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
-import { CreateCreditApplicationInput } from '../api/credit_application.types'
-import { creditApplicationQueries } from '../api/credit_application.queries'
-import { useDebounce } from '@/hooks/use_debounce'
-import { creditApplicationMutations } from '../api/credit_application.mutations'
-import { useNavigate } from '@tanstack/react-router'
 
 const formSchema = z.object({
   principalAmount: z.number(),
   tenorMonth: z.number(),
 })
 
-const AddEditForm = () => {
-  const navigate = useNavigate()
-  const [params, setParams] = useState<CreateCreditApplicationInput>(
-    {} as CreateCreditApplicationInput,
-  )
-
-  // TS infers: (value: string) => void
-  const debounce = useDebounce((data: typeof params) => {
-    setParams(data)
-  }, 500)
-  const { data: result } = useQuery(creditApplicationQueries.calculate(params))
-  const {
-    data: created,
-    isSuccess,
-    mutate: create,
-  } = useMutation(creditApplicationMutations.create())
+const LoginForm = () => {
   const form = useForm({
     defaultValues: { principalAmount: 0, tenorMonth: 0 },
     validators: {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      create(value)
+      console.log(value)
     },
   })
-
-  useEffect(() => {
-    if (isSuccess) navigate({ to: '/credit-application/$id/view', params: { id: created.id } })
-  }, [isSuccess])
-
-  const handleChange = (value: number, name: string) => debounce({ ...params, [name]: value })
 
   return (
     <>
@@ -67,10 +39,7 @@ const AddEditForm = () => {
                   id={field.name}
                   name={field.name}
                   onBlur={field.handleBlur}
-                  onChange={(e) => {
-                    field.handleChange(Number(e.target.value))
-                    handleChange(Number(e.target.value), e.target.name)
-                  }}
+                  onChange={(e) => field.handleChange(Number(e.target.value))}
                   placeholder="1000000"
                   type="number"
                   value={field.state.value}
@@ -88,10 +57,7 @@ const AddEditForm = () => {
                   id={field.name}
                   name={field.name}
                   onBlur={field.handleBlur}
-                  onChange={(e) => {
-                    field.handleChange(Number(e.target.value))
-                    handleChange(Number(e.target.value), e.target.name)
-                  }}
+                  onChange={(e) => field.handleChange(Number(e.target.value))}
                   placeholder="1, 3, 5 (in months)"
                   type="number"
                   value={field.state.value}
@@ -103,10 +69,8 @@ const AddEditForm = () => {
         </FieldGroup>
         <Button type="submit">Apply</Button>
       </form>
-      <div>Monthly Installment: {result?.monthlyInstallment}</div>
-      <div>Total Loan: {result?.totalLoan}</div>
     </>
   )
 }
 
-export { AddEditForm }
+export { LoginForm }

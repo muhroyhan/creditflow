@@ -4,12 +4,11 @@ import { createApp } from '../src/app'
 import { Pool } from 'pg'
 
 const createDatabaseClient = () => {
-  const query = vi.fn()
-  const pool: Pool = new Pool()
+  const pool = new Pool()
+  const query = vi.spyOn(pool, 'query')
 
   return { pool, query }
 }
-
 describe('health endpoints', () => {
   it('returns live without checking the database', async () => {
     const { pool, query } = createDatabaseClient()

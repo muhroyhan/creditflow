@@ -1,4 +1,3 @@
-// routes/userRoutes.js
 import express from 'express'
 import { creditApplicationController } from './credit_application.controller.js'
 import { CreditApplicationService } from './credit_application.service.js'
