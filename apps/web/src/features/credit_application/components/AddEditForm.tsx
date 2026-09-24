@@ -14,6 +14,8 @@ import { useNavigate } from '@tanstack/react-router'
 const formSchema = z.object({
   principalAmount: z.number(),
   tenorMonth: z.number(),
+  monthlyInstallment: z.number(),
+  totalLoan: z.number(),
 })
 
 const AddEditForm = () => {
@@ -33,7 +35,7 @@ const AddEditForm = () => {
     mutate: create,
   } = useMutation(creditApplicationMutations.create())
   const form = useForm({
-    defaultValues: { principalAmount: 0, tenorMonth: 0 },
+    defaultValues: { principalAmount: 0, tenorMonth: 0, monthlyInstallment: 0, totalLoan: 0 },
     validators: {
       onSubmit: formSchema,
     },
@@ -45,6 +47,13 @@ const AddEditForm = () => {
   useEffect(() => {
     if (isSuccess) navigate({ to: '/credit-application/$id/view', params: { id: created.id } })
   }, [isSuccess])
+
+  useEffect(() => {
+    if (result) {
+      form.setFieldValue('monthlyInstallment', result.monthlyInstallment)
+      form.setFieldValue('totalLoan', result.totalLoan)
+    }
+  }, [result])
 
   const handleChange = (value: number, name: string) => debounce({ ...params, [name]: value })
 
@@ -100,11 +109,43 @@ const AddEditForm = () => {
               </Field>
             )}
           />
+          <form.Field
+            name="monthlyInstallment"
+            children={(field) => (
+              <Field>
+                <FieldLabel htmlFor={field.name}>Installment</FieldLabel>
+                <Input
+                  disabled
+                  id={field.name}
+                  name={field.name}
+                  placeholder="Result Here"
+                  type="number"
+                  value={field.state.value}
+                />
+                <FieldError errors={field.state.meta.errors} />
+              </Field>
+            )}
+          />
+          <form.Field
+            name="totalLoan"
+            children={(field) => (
+              <Field>
+                <FieldLabel htmlFor={field.name}>Total Loan</FieldLabel>
+                <Input
+                  disabled
+                  id={field.name}
+                  name={field.name}
+                  placeholder="Result Here"
+                  type="number"
+                  value={field.state.value}
+                />
+                <FieldError errors={field.state.meta.errors} />
+              </Field>
+            )}
+          />
         </FieldGroup>
         <Button type="submit">Apply</Button>
       </form>
-      <div>Monthly Installment: {result?.monthlyInstallment}</div>
-      <div>Total Loan: {result?.totalLoan}</div>
     </>
   )
 }

@@ -18,8 +18,8 @@ const requireData = <T>(response: ApiResponse<T>): T => {
 }
 
 export const creditApplicationApi = {
-  async create(input: CreateCreditApplicationInput): Promise<CreditApplication> {
-    const { data } = await apiClient.post<ApiResponse<CreditApplication>>(basePath, input)
+  async create(input: CreateCreditApplicationInput): Promise<{ id: number }> {
+    const { data } = await apiClient.post<ApiResponse<{ id: number }>>(basePath, input)
 
     return requireData(data)
   },

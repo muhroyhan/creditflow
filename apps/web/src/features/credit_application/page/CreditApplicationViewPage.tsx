@@ -8,9 +8,7 @@ const CreditApplicationViewPage = ({ id }: { id: string }) => {
       {item && (
         <div>
           {Object.entries(item).map((value, key) => (
-            <div key={key}>
-              {key}: {value}
-            </div>
+            <div key={key}>{value}</div>
           ))}
         </div>
       )}

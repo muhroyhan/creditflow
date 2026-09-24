@@ -2,17 +2,10 @@
   "version": "8",
   "dialect": "postgres",
   "id": "a148cbc1-0da3-4c55-82d9-54c5a90a58e0",
-  "prevIds": [
-    "00000000-0000-0000-0000-000000000000"
-  ],
+  "prevIds": ["00000000-0000-0000-0000-000000000000"],
   "ddl": [
     {
-      "values": [
-        "draft",
-        "pending",
-        "rejected",
-        "approved"
-      ],
+      "values": ["draft", "pending", "rejected", "approved"],
       "name": "credit_application_status",
       "entityType": "enums",
       "schema": "public"
@@ -180,9 +173,7 @@
       "table": "credit_application"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "credit_application_pkey",
       "schema": "public",
@@ -191,9 +182,7 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nullsNotDistinct": false,
       "name": "credit_application_id_key",
       "schema": "public",

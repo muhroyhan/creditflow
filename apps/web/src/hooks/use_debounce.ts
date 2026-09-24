@@ -1,30 +1,34 @@
-import { useEffect, useRef, useMemo } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
-export function useDebounce<T extends (...args: any[]) => void>(callback: T, delay: number) {
+export function useDebounce<Args extends unknown[]>(
+  callback: (...args: Args) => void,
+  delay: number,
+) {
   const callbackRef = useRef(callback)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Sync the latest callback function without triggering re-renders
   useEffect(() => {
     callbackRef.current = callback
   }, [callback])
 
-  // Memorize the debounced execution function so it persists across renders
-  return useMemo(() => {
-    let timerId: number
+  useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current)
+      }
+    }
+  }, [])
 
-    const debouncedFn = (...args: any[]) => {
-      if (timerId) clearTimeout(timerId)
+  return useCallback(
+    (...args: Args) => {
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current)
+      }
 
-      timerId = setTimeout(() => {
+      timerRef.current = setTimeout(() => {
         callbackRef.current(...args)
       }, delay)
-    }
-
-    // Provide a cancel method just like Lodash does
-    debouncedFn.cancel = () => {
-      if (timerId) clearTimeout(timerId)
-    }
-
-    return debouncedFn
-  }, [delay])
+    },
+    [delay],
+  )
 }
