@@ -1,14 +1,10 @@
 import express, { type Response } from 'express'
 import { ApiError } from '../../utils/ApiError'
 import { sendSuccess } from '../../utils/responseHelper.js'
-import { healthService, type DatabaseClient } from './health.service.js'
+import { healthService, type Pool } from './health.service.js'
 
-type HealthRouterOptions = {
-  pool: DatabaseClient
-}
-
-const healthRouter = ({ pool }: HealthRouterOptions) => {
-  const health = healthService({ pool })
+const healthRouter = (pool: Pool) => {
+  const health = healthService(pool)
   const router = express.Router()
 
   router.get('/live', (_, res: Response) => {

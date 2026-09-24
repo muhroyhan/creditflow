@@ -8,7 +8,7 @@ export const apiClient = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest', // Praktik baik untuk membantu backend mendeteksi request AJAX
+    'X-Requested-With': 'XMLHttpRequest',
   },
   xsrfCookieName: 'XSRF-TOKEN',
   xsrfHeaderName: 'X-XSRF-TOKEN',

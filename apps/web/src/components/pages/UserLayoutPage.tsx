@@ -1,7 +1,8 @@
+import { getApiLiveStatus, getApiReadyStatus } from '@/api/queries'
 import { useQuery } from '@tanstack/react-query'
-import { getApiLiveStatus, getApiReadyStatus } from './api/queries'
+import { Outlet } from '@tanstack/react-router'
 
-const App = () => {
+const UserLayoutPage = () => {
   const {
     data: liveData,
     isPending: isPendingLive,
@@ -20,7 +21,13 @@ const App = () => {
   if (isErrorReady) texts.push('DB Unavailable')
   else texts.push(`DB status: ${readyData?.message}`)
 
-  return <p>{texts.map((item) => item + '\n')}</p>
+  return (
+    <>
+      {texts.map((item) => item + '\n')}
+      <br />
+      <Outlet />
+    </>
+  )
 }
 
-export { App }
+export { UserLayoutPage }

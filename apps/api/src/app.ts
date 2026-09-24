@@ -4,11 +4,11 @@ import express, { type Express } from 'express'
 import morgan from 'morgan'
 import { errorHandler } from './middleware/errorHandler'
 import { notFoundHandler } from './middleware/notFoundHandler'
-import type { DatabaseClient } from './modules/health/health.service'
+import type { Pool } from './modules/health/health.service'
 import { router } from './router'
 
 type CreateAppOptions = {
-  pool: DatabaseClient
+  pool: Pool
   enableRequestLogging?: boolean
 }
 

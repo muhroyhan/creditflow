@@ -1,15 +1,14 @@
 import request from 'supertest'
 import { describe, expect, it, vi } from 'vitest'
 import { createApp } from '../src/app'
-import type { DatabaseClient } from '../src/modules/health/health.service'
+import { Pool } from 'pg'
 
 const createDatabaseClient = () => {
-  const query = vi.fn<DatabaseClient['query']>()
-  const pool: DatabaseClient = { query }
+  const pool = new Pool()
+  const query = vi.spyOn(pool, 'query')
 
   return { pool, query }
 }
-
 describe('health endpoints', () => {
   it('returns live without checking the database', async () => {
     const { pool, query } = createDatabaseClient()
